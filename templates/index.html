@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Diabetes Predictions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+        label { display: block; font-size: 14px; margin-bottom: 4px; font-weight: bold; }
+        input { width: 100%; padding: 6px; box-sizing: border-box; }
+        .result { margin-top: 10px; font-size: 18px; font-weight: bold; color: green; }
+        select { width: 100%; padding: 6px; margin-bottom: 10px; }
+        button { padding: 8px 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h2>Diabetes Prediction</h2>
+    {% if prediction %}
+    <div class="result">Hasil prediksi: {{ prediction }}</div>
+    {% endif %}
+    <form method="post" action="/predict">
+        <label>Model</label>
+        <select name="model">
+            {% for m in model_names %}<option value="{{ loop.index0 }}">{{ m }}</option>{% endfor %}
+        </select>
+        <div class="grid">
+            {% for m in ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age'] %}
+            <div>
+                <label>{{ m }}</label>
+                <input type="number" name="{{ m }}" step="any" required>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit">Predict</button>
+    </form>
+</body>
+</html>
